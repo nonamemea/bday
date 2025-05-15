@@ -226,6 +226,7 @@
             box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
             overflow: hidden;
             animation: glow 2s infinite alternate;
+            position: relative;
         }
 
         .video-container iframe {
@@ -243,7 +244,41 @@
             text-align: center;
         }
 
-        /* Removed gift image styles */
+        /* Jumpscare styling */
+        #jumpscare {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: black;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.1s ease;
+        }
+
+        #jumpscare img {
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+
+        .shake {
+            animation: shake 0.5s linear;
+        }
+
+        .jumpscare-active {
+            opacity: 1 !important;
+        }
     </style>
 </head>
 
@@ -265,8 +300,9 @@
 
         <!-- YouTube Video Container -->
         <div class="video-container">
-            <iframe width="560" height="315"
-                src="https://www.youtube.com/embed/jtKJGtn7Zxo?si=pAn0UQJpxfz9iERh&autoplay=1" title="Birthday Song"
+            <iframe id="birthdayVideo" width="560" height="315"
+                src="https://www.youtube.com/embed/jtKJGtn7Zxo?si=pAn0UQJpxfz9iERh&enablejsapi=1&autoplay=1" 
+                title="Birthday Song"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen></iframe>
@@ -278,7 +314,58 @@
         </div>
     </div>
 
+    <!-- Jumpscare Element -->
+    <div id="jumpscare">
+        <img src="/api/placeholder/800/600" alt="jumpscare">
+    </div>
+
     <script>
+        // YouTube API script
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('birthdayVideo', {
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        // Jumpscare function
+        function triggerJumpscare() {
+            const jumpscare = document.getElementById('jumpscare');
+            const audio = new Audio('https://cdnjs.cloudflare.com/ajax/libs/sound-effects/1.0.2/glass-breaking.mp3'); // Jump scare sound
+            
+            // Show jumpscare
+            jumpscare.style.display = 'flex';
+            setTimeout(() => {
+                jumpscare.classList.add('jumpscare-active');
+                audio.play();
+                document.body.classList.add('shake');
+            }, 100);
+
+            // Hide after 2 seconds
+            setTimeout(() => {
+                jumpscare.classList.remove('jumpscare-active');
+                document.body.classList.remove('shake');
+                setTimeout(() => {
+                    jumpscare.style.display = 'none';
+                }, 500);
+            }, 2000);
+        }
+
+        // Track video state changes
+        function onPlayerStateChange(event) {
+            // 1 = playing, 2 = paused, 0 = ended
+            if (event.data === 2 || event.data === 0) {
+                triggerJumpscare();
+            }
+        }
+
         // Check if it's May 15th today
         function checkIfBirthday() {
             const today = new Date();
