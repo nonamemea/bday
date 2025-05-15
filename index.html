@@ -317,7 +317,7 @@
 
     <!-- Jumpscare Element - Now with local MP4 file -->
     <div id="jumpscare">
-        <video id="jumpscareVideo" width="100%" height="100%" autoplay muted>
+        <video id="jumpscareVideo" width="100%" height="100%">
             <source src="jumpscare.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -343,7 +343,11 @@
         // Jumpscare function
         function triggerJumpscare() {
             const jumpscare = document.getElementById('jumpscare');
-            const audio = new Audio('https://cdnjs.cloudflare.com/ajax/libs/sound-effects/1.0.2/glass-breaking.mp3'); // Jump scare sound
+            const jumpscareVideo = document.getElementById('jumpscareVideo');
+            const audio = new Audio('https://cdnjs.cloudflare.com/ajax/libs/sound-effects/1.0.2/glass-breaking.mp3'); // Extra jump scare sound
+            
+            // Reset video to beginning
+            jumpscareVideo.currentTime = 0;
             
             // Show jumpscare
             jumpscare.style.display = 'flex';
@@ -351,14 +355,14 @@
                 jumpscare.classList.add('jumpscare-active');
                 audio.play();
                 document.body.classList.add('shake');
-                jumpscarePlayer.playVideo(); // Play the jumpscare video
+                jumpscareVideo.play(); // Play the jumpscare video with sound
             }, 100);
 
             // Hide after 5 seconds
             setTimeout(() => {
                 jumpscare.classList.remove('jumpscare-active');
                 document.body.classList.remove('shake');
-                jumpscarePlayer.pauseVideo(); // Pause the jumpscare video
+                jumpscareVideo.pause(); // Pause the jumpscare video
                 setTimeout(() => {
                     jumpscare.style.display = 'none';
                 }, 500);
@@ -368,8 +372,26 @@
         // Track video state changes
         function onPlayerStateChange(event) {
             // 1 = playing, 2 = paused, 0 = ended
-            if (event.data === 2 || event.data === 0) {
+            if (event.data === 2) { // Video was paused
+                // If it's her birthday, automatically resume playing after a short delay
+                if (checkIfBirthday()) {
+                    setTimeout(() => {
+                        player.playVideo();
+                    }, 500);
+                } else {
+                    // Trigger jumpscare when paused if not birthday
+                    triggerJumpscare();
+                }
+            } else if (event.data === 0) { // Video ended
                 triggerJumpscare();
+                
+                // If it's her birthday, restart the video after jumpscare completes
+                if (checkIfBirthday()) {
+                    setTimeout(() => {
+                        player.seekTo(0);
+                        player.playVideo();
+                    }, 6000); // Wait for jumpscare to complete
+                }
             }
         }
 
@@ -378,6 +400,16 @@
             const today = new Date();
             return today.getDate() === 15 && today.getMonth() === 4; // May is month 4 (0-indexed)
         }
+        
+        // Initialize birthday mode if today is May 15th
+        document.addEventListener('DOMContentLoaded', function() {
+            if (checkIfBirthday()) {
+                // If we're on her birthday, automatically click the Yes button after 2 seconds
+                setTimeout(function() {
+                    yesButton.click();
+                }, 2000);
+            }
+        });
 
         let clickCount = 0;
         const noButton = document.getElementById('noBtn');
@@ -429,6 +461,11 @@
                 document.querySelector('.celebration-title').textContent = "HAPPY BIRTHDAY!!! 🎉";
                 document.querySelector('.special-message').innerHTML =
                     "Hope you enjoy every moment of your special day! You deserve all the happiness in the world! ❤️";
+                
+                // Make sure the birthday video starts playing immediately
+                if (player && typeof player.playVideo === 'function') {
+                    player.playVideo();
+                }
             } else {
                 // Update countdown
                 updateCountdown();
