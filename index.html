@@ -60,7 +60,7 @@
             border: none;
             border-radius: 30px;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
             font-weight: bold;
         }
 
@@ -80,21 +80,10 @@
         }
 
         .hidden {
-            display: none !important;
+            display: none;
         }
 
-        .countdown-display {
-            font-size: 3rem;
-            color: #ff0066;
-            margin: 30px 0;
-            font-weight: bold;
-            text-align: center;
-            padding: 20px;
-            border-radius: 15px;
-            background-color: rgba(255, 255, 255, 0.7);
-            box-shadow: 0 0 15px rgba(255, 0, 102, 0.7);
-        }
-
+        /* Celebration section styling */
         .celebration {
             display: none;
             flex-direction: column;
@@ -102,36 +91,99 @@
             justify-content: center;
             text-align: center;
             z-index: 10;
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
         }
 
-        .celebration h1 {
-            font-size: 4rem;
+        .celebration-title {
+            font-size: 2.5rem;
             color: #ff0066;
+            margin: 20px 0;
+            text-align: center;
             animation: pulse 2s infinite;
         }
 
-        .celebration p {
-            font-size: 2rem;
-            color: #b30059;
-            margin: 20px 0;
-        }
-
-        .cake {
-            font-size: 100px;
+        .cake-emoji {
+            font-size: 80px;
             margin: 20px 0;
             animation: bounce 2s infinite;
         }
 
+        /* Special message in glowing box */
+        .special-message {
+            font-size: 1.8rem;
+            color: #ff0066;
+            margin-top: 25px;
+            padding: 15px;
+            border: 3px dotted #ff69b4;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+            font-weight: bold;
+            animation: glow 2s infinite alternate;
+            text-align: center;
+            max-width: 90%;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px #ff69b4;
+            }
+
+            to {
+                box-shadow: 0 0 20px #ff1493, 0 0 30px #ff69b4;
+            }
+        }
+
+        /* Heart animations */
+        .heart {
+            position: fixed;
+            font-size: 24px;
+            color: #ff0066;
+            opacity: 0.8;
+            z-index: 5;
+            animation: float-heart 10s linear forwards;
+        }
+
+        @keyframes float-heart {
+            0% {
+                transform: translateY(100vh) scale(0.3);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.8;
+            }
+
+            90% {
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Confetti particles */
         .confetti {
             position: absolute;
-            width: 15px;
-            height: 15px;
+            width: 10px;
+            height: 10px;
             background-color: #f00;
             opacity: 0.7;
             top: -50px;
             animation: fall linear forwards;
         }
 
+        @keyframes fall {
+            to {
+                top: 100vh;
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Animation keyframes */
         @keyframes fadeIn {
             to {
                 opacity: 1;
@@ -165,124 +217,7 @@
             }
         }
 
-        @keyframes fall {
-            to {
-                top: 100vh;
-                transform: rotate(360deg);
-            }
-        }
-
-        .heart {
-            position: fixed;
-            top: -100px;
-            transform: translateY(0);
-            opacity: 0.8;
-            animation: fall-slow linear forwards;
-        }
-
-        @keyframes glow {
-            from {
-                box-shadow: 0 0 10px #ff69b4;
-            }
-
-            to {
-                box-shadow: 0 0 20px #ff1493, 0 0 30px #ff69b4;
-            }
-        }
-
-        #video-toggle {
-            background-color: #ff0066;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: all 0.3s;
-        }
-
-        #video-toggle:hover {
-            background-color: #ff1493;
-            transform: scale(1.05);
-        }
-
-        .party-popper {
-            font-size: 50px;
-            position: fixed;
-            opacity: 0;
-            animation: pop 0.5s ease forwards;
-        }
-
-        @keyframes fall-slow {
-            to {
-                top: 110vh;
-            }
-        }
-
-        @keyframes pop {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-
-            50% {
-                transform: scale(1.2);
-                opacity: 1;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        #gift-image {
-            width: 150px;
-            height: 150px;
-            margin: 20px 0;
-            animation: wiggle 1s infinite alternate;
-        }
-
-        .button-message {
-            font-size: 1.3rem;
-            color: #ff0066;
-            margin-top: 20px;
-            padding: 10px 15px;
-            border-radius: 10px;
-            background-color: rgba(255, 255, 255, 0.8);
-            text-align: center;
-            font-weight: bold;
-            animation: pulse 1.5s infinite;
-        }
-
-        .countdown-main {
-            font-size: 1.8rem;
-            color: #b30059;
-            margin: 20px 0;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .btn-disabled {
-            background-color: #cccccc !important;
-            color: #666666 !important;
-            cursor: not-allowed !important;
-            opacity: 0.7;
-        }
-
-        .enjoy-message {
-            font-size: 1.8rem;
-            color: #ff0066;
-            margin-top: 25px;
-            padding: 15px;
-            border: 3px dotted #ff69b4;
-            border-radius: 20px;
-            background-color: rgba(255, 255, 255, 0.7);
-            font-weight: bold;
-            animation: glow 2s infinite alternate;
-        }
-
+        /* Video container styling */
         .video-container {
             width: 100%;
             max-width: 560px;
@@ -299,15 +234,16 @@
             border: none;
         }
 
-        @keyframes wiggle {
-            0% {
-                transform: rotate(-5deg);
-            }
-
-            100% {
-                transform: rotate(5deg);
-            }
+        /* Countdown styling */
+        #countdown {
+            font-size: 1.8rem;
+            color: #b30059;
+            margin: 20px 0;
+            font-weight: bold;
+            text-align: center;
         }
+
+        /* Removed gift image styles */
     </style>
 </head>
 
@@ -315,278 +251,187 @@
     <div class="container">
         <h1>Hi, Polka! 🎉</h1>
         <div class="message" id="main-message">Birthday mo na sa May 15th! Excited ka na ba?</div>
-        <div id="countdown" class="countdown-main"></div>
         <div class="buttons">
             <button class="btn btn-yes" id="yesBtn">YES!!</button>
             <button class="btn btn-no" id="noBtn">Not really</button>
         </div>
-        <div id="button-message" class="button-message hidden">Come back on May 15th to celebrate your birthday!</div>
+        <div id="countdown" class="hidden"></div>
     </div>
 
     <div class="celebration hidden" id="celebration">
-        <h1 id="pre-birthday-title">BIRTHDAY COUNTDOWN! 🎂</h1>
-        <h1 id="birthday-title" class="hidden">HAPPY BIRTHDAY!!! 🎉</h1>
-        <div id="countdown-display" class="countdown-display"></div>
-        <div id="birthday-content" class="hidden">
-            <div class="video-container">
-                <iframe width="560" height="315"
-                    src="https://www.youtube.com/embed/jtKJGtn7Zxo?si=pAn0UQJpxfz9iERh&autoplay=1"
-                    title="YouTube video player" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe>
-            </div>
-            <p>Wishing you the most amazing day ever!</p>
-            <div class="cake">🎂</div>
-            <p>It's finally your special day!</p>
-            <div class="enjoy-message">Hope you enjoy every moment of your special day! You deserve all the happiness in
-                the world!</div>
+        <div class="celebration-title">Wishing you all the best!</div>
+        <div class="cake-emoji">🎂</div>
+        <div class="celebration-title">Yeyy plus 1!</div>
+
+        <!-- YouTube Video Container -->
+        <div class="video-container">
+            <iframe width="560" height="315"
+                src="https://www.youtube.com/embed/jtKJGtn7Zxo?si=pAn0UQJpxfz9iERh&autoplay=1" title="Birthday Song"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+
+        <!-- Special Message in Glowing Box -->
+        <div class="special-message">
+            Hope you enjoy every moment of your special day! You deserve all the happiness in the world!
         </div>
     </div>
 
     <script>
+        // Check if it's May 15th today
+        function checkIfBirthday() {
+            const today = new Date();
+            return today.getDate() === 15 && today.getMonth() === 4; // May is month 4 (0-indexed)
+        }
+
         let clickCount = 0;
         const noButton = document.getElementById('noBtn');
         const yesButton = document.getElementById('yesBtn');
         const container = document.querySelector('.container');
         const celebration = document.getElementById('celebration');
         const countdownElement = document.getElementById('countdown');
-        const buttonMessage = document.getElementById('button-message');
 
-        // Check if it's birthday and setup buttons accordingly
-        function checkBirthday() {
-            const now = new Date();
-            const isBirthday = now.getDate() === 15 && now.getMonth() === 4; // May is month 4 (0-indexed)
-
-            if (!isBirthday) {
-                // Disable Yes button
-                yesButton.classList.add('btn-disabled');
-                yesButton.disabled = true;
-
-                // Show message
-                buttonMessage.classList.remove('hidden');
-
-                // Update countdown
-                updateMainCountdown();
-                setInterval(updateMainCountdown, 1000);
-
-                // Disable No button hover effect
-                noButton.style.position = 'static';
-                noButton.classList.add('btn-disabled');
-                noButton.disabled = true;
-            } else {
-                // It's her birthday! Enable buttons
-                document.getElementById('main-message').textContent = "It's your birthday today! Are you ready to celebrate?";
-            }
-        }
-
-        // Call this on page load
-        checkBirthday();
-
-        // Calculate time until May 15th for main screen
-        function updateMainCountdown() {
-            const now = new Date();
-            const birthdayThisYear = new Date(now.getFullYear(), 4, 15); // May is month 4 (0-indexed)
-
-            // If birthday has already passed this year, set for next year
-            if (now > birthdayThisYear) {
-                birthdayThisYear.setFullYear(birthdayThisYear.getFullYear() + 1);
-            }
-
-            const difference = birthdayThisYear - now;
-
-            // Calculate days, hours, minutes, seconds
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-            countdownElement.textContent = `${days}D, ${hours}H, ${minutes}M, ${seconds}S until your birthday!`;
-        }
-
-        // Calculate time until May 15th for celebration screen
-        function updateCountdown() {
-            const now = new Date();
-            const birthdayThisYear = new Date(now.getFullYear(), 4, 15); // May is month 4 (0-indexed)
-
-            // If birthday has already passed this year, set for next year
-            if (now > birthdayThisYear) {
-                birthdayThisYear.setFullYear(birthdayThisYear.getFullYear() + 1);
-            }
-
-            const difference = birthdayThisYear - now;
-
-            // Calculate days, hours, minutes, seconds
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-            // Display countdown
-            if (difference <= 0) {
-                // It's birthday time!
-                document.getElementById('countdown-display').textContent = "IT'S YOUR BIRTHDAY TODAY! 🥳";
-                document.getElementById('pre-birthday-title').classList.add('hidden');
-                document.getElementById('birthday-title').classList.remove('hidden');
-                document.getElementById('birthday-content').classList.remove('hidden');
-                startCelebration();
-            } else {
-                document.getElementById('countdown-display').textContent =
-                    `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
-            }
-        }
-
-        // Modified to make the button disappear immediately on hover when it's her birthday
+        // Handle No button hover
         noButton.addEventListener('mouseover', function () {
-            const now = new Date();
-            const isBirthday = now.getDate() === 15 && now.getMonth() === 4; // May is month 4 (0-indexed)
-
-            if (isBirthday) {
-                // Make the button disappear immediately
+            // If it's the birthday, make button disappear immediately
+            if (checkIfBirthday()) {
                 this.classList.add('hidden');
-
-                // Make the Yes button bigger
                 yesButton.style.padding = '20px 50px';
                 yesButton.style.fontSize = '1.5rem';
-            } else {
-                // Original behavior for non-birthday days
-                clickCount++;
+                return;
+            }
 
-                // Make the button move to a random position
-                const maxX = window.innerWidth - this.offsetWidth;
-                const maxY = window.innerHeight - this.offsetHeight;
+            clickCount++;
 
-                const newX = Math.random() * maxX;
-                const newY = Math.random() * maxY;
+            // Make the button move to a random position
+            const maxX = window.innerWidth - this.offsetWidth;
+            const maxY = window.innerHeight - this.offsetHeight;
 
-                this.style.position = 'absolute';
-                this.style.left = newX + 'px';
-                this.style.top = newY + 'px';
+            const newX = Math.random() * maxX;
+            const newY = Math.random() * maxY;
 
-                // Make the Yes button bigger
-                if (clickCount > 2) {
-                    yesButton.style.padding = parseInt(getComputedStyle(yesButton).padding) + 5 + 'px';
-                    yesButton.style.fontSize = parseInt(getComputedStyle(yesButton).fontSize) + 5 + 'px';
-                }
+            this.style.position = 'absolute';
+            this.style.left = newX + 'px';
+            this.style.top = newY + 'px';
+
+            // Make the Yes button bigger
+            if (clickCount > 2) {
+                yesButton.style.padding = parseInt(getComputedStyle(yesButton).padding) + 5 + 'px';
+                yesButton.style.fontSize = parseInt(getComputedStyle(yesButton).fontSize) + 5 + 'px';
             }
         });
 
-        function startCelebration() {
-            // Create confetti
-            for (let i = 0; i < 100; i++) {
-                createConfetti();
-            }
-
-            // Create floating hearts
-            for (let i = 0; i < 30; i++) {
-                setTimeout(() => {
-                    createHeart();
-                }, i * 300);
-            }
-
-            // Create party poppers
-            for (let i = 0; i < 20; i++) {
-                setTimeout(() => {
-                    createPartyPopper();
-                }, i * 200);
-            }
-
-            // Continue confetti
-            setInterval(() => {
-                for (let i = 0; i < 10; i++) {
-                    createConfetti();
-                }
-            }, 2000);
-        }
-
-        function createConfetti() {
-            const confetti = document.createElement('div');
-            confetti.classList.add('confetti');
-
-            // Pink-focused color scheme
-            const colors = ['#ff69b4', '#ff1493', '#ff0066', '#ffb6c1', '#ffc0cb', '#ff77aa', '#ff5faa', '#ff91af', '#ff85a2', '#ff69b4', '#ffcbdb', '#ff91a4', '#FF5FAA', '#ff8da1', '#ffb3ba'];
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-
-            // Random position
-            confetti.style.left = Math.random() * 100 + 'vw';
-
-            // Random fall duration
-            const duration = Math.random() * 3 + 2;
-            confetti.style.animationDuration = duration + 's';
-
-            // Random shape
-            if (Math.random() > 0.5) {
-                confetti.style.borderRadius = '50%';
-            } else if (Math.random() > 0.5) {
-                confetti.style.width = '10px';
-                confetti.style.height = '10px';
-                confetti.style.transform = 'rotate(45deg)';
-            }
-
-            document.body.appendChild(confetti);
-
-            // Remove confetti after animation
-            setTimeout(() => {
-                confetti.remove();
-            }, duration * 1000);
-        }
-
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.fontSize = Math.random() * 20 + 20 + 'px';
-            heart.style.left = Math.random() * 100 + 'vw';
-
-            const duration = Math.random() * 5 + 5;
-            heart.style.animationDuration = duration + 's';
-
-            document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, duration * 1000);
-        }
-
-        function createPartyPopper() {
-            const popper = document.createElement('div');
-            popper.classList.add('party-popper');
-            popper.innerHTML = '🎉';
-            popper.style.left = Math.random() * 100 + 'vw';
-            popper.style.top = Math.random() * 100 + 'vh';
-
-            document.body.appendChild(popper);
-
-            setTimeout(() => {
-                popper.remove();
-            }, 3000);
-        }
-
-        // Gift image removed and replaced with auto-playing video
-
+        // Handle Yes button click
         yesButton.addEventListener('click', function () {
             container.classList.add('hidden');
             celebration.style.display = 'flex';
-            document.body.style.backgroundColor = '#ffb6c1';
+            document.body.style.backgroundColor = '#ffd1dc';
+            startCelebration();
 
-            // Check if it's already May 15th
-            const now = new Date();
-            const birthday = new Date(now.getFullYear(), 4, 15); // May is month 4 (0-indexed)
-
-            // Set hours, minutes, seconds to 0 for comparison
-            birthday.setHours(0, 0, 0, 0);
-
-            if (now.getDate() === 15 && now.getMonth() === 4) {
+            // Check if it's already the birthday
+            if (checkIfBirthday()) {
                 // It's already the birthday!
-                document.getElementById('pre-birthday-title').classList.add('hidden');
-                document.getElementById('birthday-title').classList.remove('hidden');
-                document.getElementById('birthday-content').classList.remove('hidden');
-                startCelebration();
+                document.querySelector('.celebration-title').textContent = "HAPPY BIRTHDAY!!! 🎉";
+                document.querySelector('.special-message').innerHTML =
+                    "Hope you enjoy every moment of your special day! You deserve all the happiness in the world! ❤️";
             } else {
-                // Start countdown timer
+                // Update countdown
                 updateCountdown();
                 setInterval(updateCountdown, 1000);
             }
         });
+
+        // Calculate time until May 15th
+        function updateCountdown() {
+            const now = new Date();
+            const birthday = new Date(now.getFullYear(), 4, 15); // May is month 4 (0-indexed)
+
+            // If birthday has already passed this year, set for next year
+            if (now > birthday) {
+                birthday.setFullYear(birthday.getFullYear() + 1);
+            }
+
+            const difference = birthday - now;
+
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            countdownElement.textContent = `Time until your birthday: ${hours}h ${minutes}m ${seconds}s`;
+            countdownElement.classList.remove('hidden');
+        }
+
+        // Animation functions
+        function startCelebration() {
+            // Create initial confetti and hearts
+            createHearts();
+            createConfetti();
+
+            // Continue creating animations
+            setInterval(createHearts, 2000);
+            setInterval(createConfetti, 2000);
+        }
+
+        function createHearts() {
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    heart.innerHTML = '❤️';
+
+                    // Random position and size
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+
+                    // Random duration for animation
+                    const duration = Math.random() * 6 + 6;
+                    heart.style.animationDuration = duration + 's';
+
+                    document.body.appendChild(heart);
+
+                    // Remove after animation completes
+                    setTimeout(() => {
+                        heart.remove();
+                    }, duration * 1000);
+                }, i * 300);
+            }
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+
+                    // Pink color palette
+                    const colors = ['#ff69b4', '#ff1493', '#ff0066', '#ffb6c1', '#ffc0cb'];
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+                    // Random position, size and shape
+                    confetti.style.left = Math.random() * 100 + 'vw';
+
+                    const size = Math.random() * 8 + 5;
+                    confetti.style.width = size + 'px';
+                    confetti.style.height = size + 'px';
+
+                    if (Math.random() > 0.5) {
+                        confetti.style.borderRadius = '50%';
+                    }
+
+                    // Random animation duration
+                    const duration = Math.random() * 3 + 3;
+                    confetti.style.animationDuration = duration + 's';
+
+                    document.body.appendChild(confetti);
+
+                    // Remove after animation completes
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, duration * 1000);
+                }, i * 50);
+            }
+        }
     </script>
 </body>
 
