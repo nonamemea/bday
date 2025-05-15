@@ -315,14 +315,12 @@
         </div>
     </div>
 
-    <!-- Jumpscare Element - Now with YouTube video -->
+    <!-- Jumpscare Element - Now with local MP4 file -->
     <div id="jumpscare">
-        <iframe id="jumpscareVideo" width="560" height="315" 
-            src="https://www.youtube.com/embed/V_ksb190clo?si=pAn0UQJpxfz9iERh&enablejsapi=1" 
-            title="Jumpscare Video"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
+        <video id="jumpscareVideo" width="100%" height="100%" autoplay muted>
+            <source src="jumpscare.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
 
     <script>
@@ -333,7 +331,6 @@
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
         var player;
-        var jumpscarePlayer;
         
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('birthdayVideo', {
@@ -341,17 +338,6 @@
                     'onStateChange': onPlayerStateChange
                 }
             });
-            
-            jumpscarePlayer = new YT.Player('jumpscareVideo', {
-                events: {
-                    'onReady': onJumpscarePlayerReady
-                }
-            });
-        }
-        
-        function onJumpscarePlayerReady(event) {
-            // Jumpscare player is ready
-            console.log("Jumpscare player ready");
         }
 
         // Jumpscare function
