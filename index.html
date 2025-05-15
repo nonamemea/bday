@@ -324,6 +324,9 @@
     </div>
 
     <script>
+        // Global variable for countdown interval
+        let countdownInterval;
+        
         // YouTube API script
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
@@ -402,9 +405,54 @@
             return today.getDate() === 15 && today.getMonth() === 4; // May is month 4 (0-indexed)
         }
         
+        // Function to update buttons state based on birthday
+        function updateButtonsState(isBirthday) {
+            if (!isBirthday) {
+                // Disable buttons when it's not her birthday
+                yesButton.disabled = true;
+                noButton.disabled = true;
+                
+                // Add visual indication that buttons are disabled
+                yesButton.style.opacity = "0.5";
+                noButton.style.opacity = "0.5";
+                yesButton.style.cursor = "not-allowed";
+                noButton.style.cursor = "not-allowed";
+                
+                // Update message to indicate buttons are disabled
+                document.getElementById('main-message').textContent = "Countdown until next birthday is running. Come back on May 15th!";
+                
+                // Show countdown immediately on the main page
+                countdownElement.classList.remove('hidden');
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
+            } else {
+                // Enable buttons on her birthday
+                yesButton.disabled = false;
+                noButton.disabled = false;
+                
+                // Restore button appearance
+                yesButton.style.opacity = "1";
+                noButton.style.opacity = "1";
+                yesButton.style.cursor = "pointer";
+                noButton.style.cursor = "pointer";
+                
+                // Reset message to original
+                document.getElementById('main-message').textContent = "Birthday mo na sa May 15th! Excited ka na ba?";
+            }
+        }
+        
         // Initialize birthday mode if today is May 15th
         document.addEventListener('DOMContentLoaded', function() {
-            if (checkIfBirthday()) {
+            // Check if it's her birthday
+            const isBirthday = checkIfBirthday();
+            
+            // Update buttons based on birthday status
+            updateButtonsState(isBirthday);
+            
+            // Update countdown immediately on load if it's not her birthday
+            if (!isBirthday) {
+                updateCountdown();
+            } else {
                 // If we're on her birthday, automatically click the Yes button after 2 seconds
                 setTimeout(function() {
                     yesButton.click();
@@ -421,6 +469,9 @@
 
         // Handle No button hover
         noButton.addEventListener('mouseover', function () {
+            // Do nothing if button is disabled
+            if (this.disabled) return;
+            
             // If it's the birthday, make button disappear immediately
             if (checkIfBirthday()) {
                 this.classList.add('hidden');
@@ -451,6 +502,9 @@
 
         // Handle Yes button click
         yesButton.addEventListener('click', function () {
+            // Do nothing if button is disabled
+            if (this.disabled) return;
+            
             container.classList.add('hidden');
             celebration.style.display = 'flex';
             document.body.style.backgroundColor = '#ffd1dc';
@@ -468,30 +522,51 @@
                     player.playVideo();
                 }
             } else {
-                // Update countdown
+                // This shouldn't be reachable since button is disabled when not birthday,
+                // but keeping as fallback
+                countdownElement.classList.remove('hidden');
                 updateCountdown();
-                setInterval(updateCountdown, 1000);
+                countdownInterval = setInterval(updateCountdown, 1000);
             }
         });
 
         // Calculate time until May 15th
         function updateCountdown() {
             const now = new Date();
-            const birthday = new Date(now.getFullYear(), 4, 15); // May is month 4 (0-indexed)
+            let birthday = new Date(now.getFullYear(), 4, 15); // May is month 4 (0-indexed)
 
             // If birthday has already passed this year, set for next year
             if (now > birthday) {
-                birthday.setFullYear(birthday.getFullYear() + 1);
+                birthday = new Date(now.getFullYear() + 1, 4, 15);
             }
 
             const difference = birthday - now;
-
+            
+            // Calculate days, hours, minutes, seconds
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
             const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-            countdownElement.textContent = `Time until your birthday: ${hours}h ${minutes}m ${seconds}s`;
+            // Update countdown text
+            countdownElement.innerHTML = `Time until Polka's birthday:<br>${days} days, ${hours}h ${minutes}m ${seconds}s`;
+            
+            // Show countdown element
             countdownElement.classList.remove('hidden');
+            
+            // Check if it's her birthday now (for when the page is kept open during the transition)
+            if (checkIfBirthday()) {
+                // Enable buttons when the day changes to her birthday
+                updateButtonsState(true);
+                
+                // Clear the interval if we're auto-updating
+                if (typeof countdownInterval !== 'undefined') {
+                    clearInterval(countdownInterval);
+                }
+                
+                // Auto-refresh the page when day changes to birthday
+                location.reload();
+            }
         }
 
         // Animation functions
