@@ -260,8 +260,9 @@
             transition: opacity 0.1s ease;
         }
 
-        #jumpscare img {
-            width: 80%;
+        #jumpscare iframe {
+            width: 90%;
+            height: 90vh;
             max-width: 800px;
             max-height: 80vh;
         }
@@ -314,9 +315,14 @@
         </div>
     </div>
 
-    <!-- Jumpscare Element -->
+    <!-- Jumpscare Element - Now with YouTube video -->
     <div id="jumpscare">
-        <img src="/api/placeholder/800/600" alt="jumpscare">
+        <iframe id="jumpscareVideo" width="560" height="315" 
+            src="https://www.youtube.com/embed/V_ksb190clo?si=pAn0UQJpxfz9iERh&enablejsapi=1" 
+            title="Jumpscare Video"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
     </div>
 
     <script>
@@ -327,12 +333,25 @@
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
         var player;
+        var jumpscarePlayer;
+        
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('birthdayVideo', {
                 events: {
                     'onStateChange': onPlayerStateChange
                 }
             });
+            
+            jumpscarePlayer = new YT.Player('jumpscareVideo', {
+                events: {
+                    'onReady': onJumpscarePlayerReady
+                }
+            });
+        }
+        
+        function onJumpscarePlayerReady(event) {
+            // Jumpscare player is ready
+            console.log("Jumpscare player ready");
         }
 
         // Jumpscare function
@@ -346,16 +365,18 @@
                 jumpscare.classList.add('jumpscare-active');
                 audio.play();
                 document.body.classList.add('shake');
+                jumpscarePlayer.playVideo(); // Play the jumpscare video
             }, 100);
 
-            // Hide after 2 seconds
+            // Hide after 5 seconds
             setTimeout(() => {
                 jumpscare.classList.remove('jumpscare-active');
                 document.body.classList.remove('shake');
+                jumpscarePlayer.pauseVideo(); // Pause the jumpscare video
                 setTimeout(() => {
                     jumpscare.style.display = 'none';
                 }, 500);
-            }, 2000);
+            }, 5000);
         }
 
         // Track video state changes
