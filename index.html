@@ -373,16 +373,17 @@
         function onPlayerStateChange(event) {
             // 1 = playing, 2 = paused, 0 = ended
             if (event.data === 2) { // Video was paused
-                // If it's her birthday, automatically resume playing after a short delay
+                // Always trigger jumpscare when paused
+                triggerJumpscare();
+                
+                // If it's her birthday, automatically resume playing after jumpscare completes
                 if (checkIfBirthday()) {
                     setTimeout(() => {
                         player.playVideo();
-                    }, 500);
-                } else {
-                    // Trigger jumpscare when paused if not birthday
-                    triggerJumpscare();
+                    }, 6000);
                 }
             } else if (event.data === 0) { // Video ended
+                // Always trigger jumpscare when video ends
                 triggerJumpscare();
                 
                 // If it's her birthday, restart the video after jumpscare completes
